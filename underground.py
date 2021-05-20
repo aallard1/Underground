@@ -8,12 +8,10 @@ MAX_START_STAT = 10
 MIN_START_STAT = 1
 
 def main():
-    attack_stat = 0
-    defence_stat = 0
-    health_stat = 20
+    stats = {'attack_stat': 0, 'defence_stat': 0, 'health_stat': 20}
     intro()
-    get_stats(attack_stat, defence_stat)
-    menu(attack_stat, defence_stat, health_stat)
+    get_stats(stats)
+    menu(stats)
 
 def intro():
     print("Ah... you look lost. Welcome to the underground.")
@@ -23,16 +21,15 @@ def intro():
     print("What's this? They dropped a lanturn...")
     print('')
 
-def get_stats(attack_stat, defence_stat):
-    attack_stat = random.randint(MIN_START_STAT, MAX_START_STAT)
-    defence_stat = random.randint(MIN_START_STAT, MAX_START_STAT)
-    return attack_stat, defence_stat
+def get_stats(stats):
+    stats['attack_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
+    stats['defence_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
 
-def menu(user_attack_stat, user_defence_stat, health_stat):
+def menu(stats):
     print("Well, I guess I'm on my own now... what should I do?")
-    print(f"Attack: {attack_stat}")
-    print(f"Defence: {defence_stat}")
-    print(f"Health: {health_stat}")
+    print(f"Attack: {stats['attack_stat']}")
+    print(f"Defence: {stats['defence_stat']}")
+    print(f"Health: {stats['health_stat']}")
 
 if __name__ == "__main__":
     main()
