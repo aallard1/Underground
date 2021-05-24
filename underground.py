@@ -68,7 +68,7 @@ def enemy_encounter(stats, enemy, enemy_encounter_chance):
     if enemy_encounter_chance >= 0.5:
         combat(stats, enemy)
     else:
-        ("Nothing interesting happens...")
+        print("Nothing interesting happens...")
 
 def combat(stats, enemy):
     print("An enemy approaches you.")
