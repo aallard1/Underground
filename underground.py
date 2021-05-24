@@ -9,13 +9,13 @@ MAX_START_STAT = 10
 MIN_START_STAT = 1
 
 def main():
-    stats = {'attack_stat': 0, 'defence_stat': 0, 'health_stat': 20}
+    user_stats = {'attack_stat': 0, 'defence_stat': 0, 'health_stat': 20}
     inventory = []
     items = []
-    enemy = {'attack_stat': 1, 'defence_stat': 1, 'health_stat': 5}
+    enemy_stats = {'attack_stat': 1, 'defence_stat': 1, 'health_stat': 5}
     intro(inventory)
-    get_stats(stats)
-    menu(stats, inventory, enemy)
+    get_stats(user_stats)
+    menu(user_stats, inventory, enemy_stats)
 
 def clear_console():
     os.system('clear')
@@ -36,8 +36,8 @@ def intro(inventory):
         break
 
 def get_stats(stats):
-    stats['attack_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
-    stats['defence_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
+    user_stats['attack_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
+    user_stats['defence_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
 
 def menu(stats, inventory, enemy):
     print("What should I do?")
@@ -70,20 +70,20 @@ def check_stats(stats):
     print(f"Defence: {stats['defence_stat']}")
     print(f"Health: {stats['health_stat']}")
 
-def enemy_encounter(stats, enemy, enemy_encounter_chance, inventory):
+def enemy_encounter(user_stats, enemy_stats, enemy_encounter_chance, inventory):
     if enemy_encounter_chance >= 0.5:
         combat(stats, enemy, inventory)
     else:
         print("Nothing interesting happens...")
 
-def flee(flee_chance, stats, inventory, enemy):
+def flee(flee_chance, user_stats, inventory, enemy_stats):
     if flee_chance >= 0.5:
         print("You were able to flee combat...")
-        menu(stats, inventory, enemy)
+        menu(user_stats, inventory, enemy_stats)
     else:
         print("You were not able to flee combat.")
 
-def combat(stats, enemy, inventory):
+def combat(user_stats, enemy_stats, inventory):
     print("An enemy approaches you.")
     print("Attack: 1")
     print("Defend: 2")
@@ -102,7 +102,7 @@ def combat(stats, enemy, inventory):
         elif user_action == '4':
             print("You attempt to flee...")
             flee_chance = random.random()
-            flee(flee_chance, stats, inventory, enemy)
+            flee(flee_chance, user_stats, inventory, enemy_stats)
             user_action = str(input("Choose an action: "))
         else:
             print("I don't think I can do that...")
