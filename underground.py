@@ -30,16 +30,16 @@ def intro(inventory):
     print("The hooded figure melts away into the darkness.")
     print("What's this? They dropped a lanturn...")
     inventory.append('lanturn')
-    print("Well, I guess I'm on my own now... ")
-    user_input = input('')
+    user_input = input("Well, I guess I'm on my own now... ")
+
     while user_input == '':
         break
 
-def get_stats(stats):
+def get_stats(user_stats):
     user_stats['attack_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
     user_stats['defence_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
 
-def menu(stats, inventory, enemy):
+def menu(user_stats, inventory, enemy_stats):
     print("What should I do?")
     print("Move: 1")
     print("Check Stats: 2")
@@ -51,10 +51,10 @@ def menu(stats, inventory, enemy):
             print("You move forward in the darkness...")
             enemy_encounter_chance = random.random()
             # item_chance = random.random()
-            enemy_encounter(stats, enemy, enemy_encounter_chance, inventory)
+            enemy_encounter(user_stats, enemy_stats, enemy_encounter_chance, inventory)
             user_action = str(input("Choose an action: "))
         elif user_action == '2':
-            check_stats(stats)
+            check_stats(user_stats)
             user_action = str(input("Choose an action: "))
         elif user_action == '3':
             print(f"Inventory: {inventory}")
@@ -65,14 +65,14 @@ def menu(stats, inventory, enemy):
             print("I don't think I can do that...")
             user_action = str(input("Choose an action: "))
 
-def check_stats(stats):
-    print(f"Attack: {stats['attack_stat']}")
-    print(f"Defence: {stats['defence_stat']}")
-    print(f"Health: {stats['health_stat']}")
+def check_stats(user_stats):
+    print(f"Attack: {user_stats['attack_stat']}")
+    print(f"Defence: {user_stats['defence_stat']}")
+    print(f"Health: {user_stats['health_stat']}")
 
 def enemy_encounter(user_stats, enemy_stats, enemy_encounter_chance, inventory):
     if enemy_encounter_chance >= 0.5:
-        combat(stats, enemy, inventory)
+        combat(user_stats, enemy_stats, inventory)
     else:
         print("Nothing interesting happens...")
 
