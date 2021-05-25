@@ -11,7 +11,7 @@ MIN_START_STAT = 1
 def main():
     user_stats = {'attack_stat': 0, 'defence_stat': 0, 'health_stat': 20}
     inventory = []
-    items = []
+    items = ['lantern']
     enemy_stats = {'attack_stat': 1, 'defence_stat': 1, 'health_stat': 5}
     intro(inventory)
     get_stats(user_stats)
@@ -35,6 +35,7 @@ def get_stats(user_stats):
     user_stats['defence_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
 
 def menu(user_stats, inventory, enemy_stats):
+    print('')
     print("What should I do?")
     print("Move: 1\nCheck Stats: 2\nCheck Inventory: 3\nQuit: 4")
     user_action = str(input("Choose an action: "))
