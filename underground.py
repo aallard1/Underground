@@ -23,9 +23,11 @@ def main():
     get_stats(user_stats)
     menu(user_stats, inventory, enemy_stats, items)
 
+# This function clears the console when called
 def clear_console():
     os.system('clear')
 
+# This function contains the Intro text and takes input from the user
 def intro(inventory):
     print("A hooded figure appears before you.\nAh... you look lost. Welcome to the underground.")
     user_name = str(input("What is your name? "))
@@ -36,10 +38,15 @@ def intro(inventory):
     while user_input == '':
         break
 
+"""
+This function uses random.randint to get the user's starting stats.
+Starting stats are in the range MIN_START_STAT AND MAX_START_STAT inclusively.
+"""
 def get_stats(user_stats):
     user_stats['attack_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
     user_stats['defence_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
 
+# This function contains the game menu.
 def menu(user_stats, inventory, enemy_stats, items):
     print('')
     print("What should I do?")
@@ -52,32 +59,40 @@ def menu(user_stats, inventory, enemy_stats, items):
             item_chance = random.random()
             enemy_encounter(user_stats, enemy_stats, enemy_encounter_chance, inventory, items)
             find_item(item_chance, inventory, items)
+            print("Move: 1\nCheck Stats: 2\nCheck Inventory: 3\nQuit: 4")
             user_action = str(input("Choose an action: "))
         elif user_action == '2':
             check_user_stats(user_stats)
+            print("Move: 1\nCheck Stats: 2\nCheck Inventory: 3\nQuit: 4")
             user_action = str(input("Choose an action: "))
         elif user_action == '3':
             print(f"Inventory: {inventory}")
             use_item(inventory, user_stats, enemy_stats, check_enemy_stats, items)
+            print("Move: 1\nCheck Stats: 2\nCheck Inventory: 3\nQuit: 4")
             user_action = str(input("Choose an action: "))
         elif user_action == '4':
             quit()
         else:
             print("I don't think I can do that...")
+            print("Move: 1\nCheck Stats: 2\nCheck Inventory: 3\nQuit: 4")
             user_action = str(input("Choose an action: "))
 
+# This function prints user stats.
 def check_user_stats(user_stats):
     print(f"Your Stats\nAttack: {user_stats['attack_stat']}\nDefence: {user_stats['defence_stat']}\nHealth: {user_stats['health_stat']}")
 
+# This function prints enemy stats.
 def check_enemy_stats(enemy_stats):
     print(f"Enemy Stats\nAttack: {enemy_stats['attack_stat']}\nDefence: {enemy_stats['defence_stat']}\nHealth: {enemy_stats['health_stat']}")
 
+# This function determines if the user encounters an enemy. If yes, the user enters combat.
 def enemy_encounter(user_stats, enemy_stats, enemy_encounter_chance, inventory, items):
     if enemy_encounter_chance >= 0.5:
         combat(user_stats, enemy_stats, inventory, items)
     else:
         print("Nothing interesting happens...")
 
+# This function determines if the user encounters an item. If yes, it is added to the user's inventory.
 def find_item(item_chance, inventory, items):
     item_found = random.choice(items)
     if item_chance >= 0.6:
@@ -86,6 +101,10 @@ def find_item(item_chance, inventory, items):
     else:
         print('')
 
+"""
+This function determines whether the user is able to flee from combat.
+If yes, the user is directed back to the menu. If no, the user remains in combat.
+"""
 def flee(flee_chance, user_stats, inventory, enemy_stats, items):
     if flee_chance >= 0.5:
         print("You were able to flee combat...")
@@ -94,6 +113,10 @@ def flee(flee_chance, user_stats, inventory, enemy_stats, items):
     else:
         print("You were not able to flee combat.")
 
+"""
+This function determines whether the user is able to attack the enemy and how much damage is dealt.
+Damage dealt is based off of the user's attack_stat and the enemy's defence_stat.
+"""
 def attack(attack_chance, user_stats, enemy_stats, check_enemy_stats):
     if attack_chance >= 0.5:
         print("You strike the enemy...")
@@ -104,11 +127,19 @@ def attack(attack_chance, user_stats, enemy_stats, check_enemy_stats):
             enemy_stats['health_stat'] -= 1
             user_stats['health_stat'] -= 2
             check_enemy_stats(enemy_stats)
+        else:
+            enemy_stats['health_stat'] -= 1
+            user_stats['health_stat'] -= 1
+            check_enemy_stats(enemy_stats)
     else:
         print("You missed...")
         user_stats['health_stat'] -= 5
         check_enemy_stats(enemy_stats)
 
+"""
+This function determines whether the user is able to defend against the enemy and how much damage is dealt.
+Damage dealt is based off of the user's defence_stat and the enemy's attack_stat.
+"""
 def defend(defend_chance, user_stats, enemy_stats, check_enemy_stats):
     if defend_chance >= 0.5:
         print("You block the enemy's blow...")
@@ -119,11 +150,16 @@ def defend(defend_chance, user_stats, enemy_stats, check_enemy_stats):
             enemy_stats['health_stat'] -= 1
             user_stats['health_stat'] -= 2
             check_enemy_stats(enemy_stats)
+        else:
+            enemy_stats['health_stat'] -= 1
+            user_stats['health_stat'] -= 1
+            check_enemy_stats(enemy_stats)
     else:
         print("You failed to block the enemy's blow...")
         user_stats['health_stat'] -= 5
         check_enemy_stats(enemy_stats)
 
+# This function allow the user to use their collected items and removes them from the inventory if used.
 def use_item(inventory, user_stats, enemy_stats, check_enemy_stats, items):
     user_choice = str(input("Would you like to use an item? (Yes: 1, No: 2) "))
     if user_choice == '1':
@@ -157,6 +193,11 @@ def use_item(inventory, user_stats, enemy_stats, check_enemy_stats, items):
     else:
         print('')
 
+"""
+This function allows the user to fight enemies.
+If the user wins, their stats increase and the next enemy encountered will have increased stats.
+If the user loses, the game ends.
+"""
 def combat(user_stats, enemy_stats, inventory, items):
     in_combat = True
     print("An enemy approaches you.")
@@ -177,11 +218,11 @@ def combat(user_stats, enemy_stats, inventory, items):
                 enemy_stats['health_stat'] += 10
                 user_stats['attack_stat'] += 1
                 user_stats['defence_stat'] += 1
-                menu(user_stats, inventory, enemy_stats)
+                menu(user_stats, inventory, enemy_stats, items)
             elif user_stats['health_stat'] <= 0:
                 print("You have died...")
-                quit()
                 clear_console()
+                quit()
             user_action = str(input("Choose an action: "))
         elif user_action == '2':
             print("You defend yourself...")
@@ -196,8 +237,8 @@ def combat(user_stats, enemy_stats, inventory, items):
                 menu(user_stats, inventory, enemy_stats, items)
             elif user_stats['health_stat'] <= 0:
                 print("You have died...")
-                quit()
                 clear_console()
+                quit()
             user_action = str(input("Choose an action: "))
         elif user_action == '3':
             print(f"Inventory: {inventory}")
