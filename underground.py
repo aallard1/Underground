@@ -33,7 +33,7 @@ def intro(inventory):
     user_name = str(input("What is your name? "))
     print(f"Well, {user_name} , nice to meet you!\nTake this, you'll need it. I have to go now. Good luck to you!\n...\nThe hooded figure melts away into the darkness.\nWhat's this? They dropped a lantern...")
     user_input = str(input("Well, I guess I'm on my own now... \nPress enter to continue."))
-    inventory.append('lantern')
+    inventory.append('lantern') # Adds new element 'lantern' to the inventory list
     while user_input == '':
         break
 
@@ -160,7 +160,7 @@ def use_item(inventory, user_stats, enemy_stats, check_enemy_stats, items, in_co
             print("You used the first aid kit...")
             user_stats['health_stat'] += 5
             print("You feel a bit better now!")
-            inventory.remove('first aid kit')
+            inventory.remove('first aid kit') # Searches inventory list for element and removes it
         elif user_choice == 'rock' and ('rock' in inventory) and in_combat == True:
             print("You throw the rock at the enemy...")
             rock_hit_chance = random.random()
@@ -183,6 +183,7 @@ def use_item(inventory, user_stats, enemy_stats, check_enemy_stats, items, in_co
             print('')
         else: 
             print("I don't think I can do that...")
+            user_choice = str(input("Which item will you use? "))
     else:
         print('')
 
