@@ -33,7 +33,6 @@ def intro(inventory):
     user_name = str(input("What is your name? "))
     print(f"Well, {user_name} , nice to meet you!\nTake this, you'll need it. I have to go now. Good luck to you!\n...\nThe hooded figure melts away into the darkness.\nWhat's this? They dropped a lantern...")
     user_input = str(input("Well, I guess I'm on my own now... \nPress enter to continue."))
-    print('')
     inventory.append('lantern')
     while user_input == '':
         break
@@ -252,7 +251,6 @@ def combat(user_stats, enemy_stats, inventory, items):
             user_action = str(input("Choose an action: "))
         elif user_action == '4':
             check_user_stats(user_stats)
-            print('')
             check_enemy_stats(enemy_stats)
             print('\033[31m' + "1. Attack\n2. Defend\n3. Use Item\n4. Check Stats\n5. Flee\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: ")) 
