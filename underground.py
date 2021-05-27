@@ -50,7 +50,7 @@ def get_stats(user_stats):
 def menu(user_stats, inventory, enemy_stats, items, in_combat):
     print('')
     print("What should I do?")
-    print('\033[31m' + "1. Move\n2. Check Stats\n3. Check Inventory\n0. Quit" + '\033[0m')
+    print('\033[31m' + "1. Move\n2. Check Stats\n3. Check Inventory\n0. Quit" + '\033[0m') # Red text
     user_action = str(input("Choose an action: "))
     while user_action != '':
         if user_action == '1':
@@ -77,7 +77,7 @@ def menu(user_stats, inventory, enemy_stats, items, in_combat):
             print("I don't think I can do that...")
             print('\033[31m' + "1. Move\n2. Check Stats\n3. Check Inventory\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: "))
-
+            
 # This function prints user stats.
 def check_user_stats(user_stats):
     print(f"Your Stats\nAttack: {user_stats['attack_stat']}\nDefence: {user_stats['defence_stat']}\nHealth: {user_stats['health_stat']}")
