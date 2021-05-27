@@ -80,11 +80,11 @@ def menu(user_stats, inventory, enemy_stats, items, in_combat):
             
 # This function prints user stats.
 def check_user_stats(user_stats):
-    print(f"Your Stats\nAttack: {user_stats['attack_stat']}\nDefence: {user_stats['defence_stat']}\nHealth: {user_stats['health_stat']}")
+    print(f"Your Stats\nAttack: {user_stats['attack_stat']} | Defence: {user_stats['defence_stat']} | Health: {user_stats['health_stat']}")
 
 # This function prints enemy stats.
 def check_enemy_stats(enemy_stats):
-    print(f"Enemy Stats\nAttack: {enemy_stats['attack_stat']}\nDefence: {enemy_stats['defence_stat']}\nHealth: {enemy_stats['health_stat']}")
+    print(f"Enemy Stats\nAttack: {enemy_stats['attack_stat']} | Defence: {enemy_stats['defence_stat']} | Health: {enemy_stats['health_stat']}")
 
 # This function determines if the user encounters an enemy. If yes, the user enters combat.
 def enemy_encounter(user_stats, enemy_stats, enemy_encounter_chance, inventory, items):
@@ -196,6 +196,7 @@ def combat(user_stats, enemy_stats, inventory, items):
     in_combat = True
     print("An enemy approaches you.")
     print('')
+    print(f"Your Health: {user_stats['health_stat']} | Enemy Health: {enemy_stats['health_stat']}")
     print('\033[31m' + "1. Attack\n2. Defend\n3. Use Item\n4. Check Stats\n5. Flee\n0. Quit" + '\033[0m')
     user_action = str(input("Choose an action: "))
     while user_action != '':
@@ -219,6 +220,7 @@ def combat(user_stats, enemy_stats, inventory, items):
                     break
                 clear_console()
                 quit()
+            print(f"Your Health: {user_stats['health_stat']} | Enemy Health: {enemy_stats['health_stat']}")
             print('\033[31m' + "1. Attack\n2. Defend\n3. Use Item\n4. Check Stats\n5. Flee\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: "))
         elif user_action == '2':
@@ -239,11 +241,13 @@ def combat(user_stats, enemy_stats, inventory, items):
                     break
                 clear_console()
                 quit()
+            print(f"Your Health: {user_stats['health_stat']} | Enemy Health: {enemy_stats['health_stat']}")
             print('\033[31m' + "1. Attack\n2. Defend\n3. Use Item\n4. Check Stats\n5. Flee\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: "))
         elif user_action == '3':
             print(f"Inventory: {inventory}")
             use_item(inventory, user_stats, enemy_stats, check_enemy_stats, items, in_combat)
+            print(f"Your Health: {user_stats['health_stat']} | Enemy Health: {enemy_stats['health_stat']}")
             print('\033[31m' + "1. Attack\n2. Defend\n3. Use Item\n4. Check Stats\n5. Flee\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: "))
         elif user_action == '4':
@@ -256,6 +260,7 @@ def combat(user_stats, enemy_stats, inventory, items):
             print("You attempt to flee...")
             flee_chance = random.random()
             flee(flee_chance, user_stats, inventory, enemy_stats, items, in_combat)
+            print(f"Your Health: {user_stats['health_stat']} | Enemy Health: {enemy_stats['health_stat']}")
             print('\033[31m' + "1. Attack\n2. Defend\n3. Use Item\n4. Check Stats\n5. Flee\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: "))
         elif user_action == '0':
@@ -263,6 +268,7 @@ def combat(user_stats, enemy_stats, inventory, items):
             quit()
         else:
             print("I don't think I can do that...")
+            print(f"Your Health: {user_stats['health_stat']} | Enemy Health: {enemy_stats['health_stat']}")
             print('\033[31m' + "1. Attack\n2. Defend\n3. Use Item\n4. Check Stats\n5. Flee\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: "))
 
