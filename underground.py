@@ -30,7 +30,7 @@ def clear_console():
 
 # This function contains the Intro text and takes input from the user
 def intro(inventory):
-    print("This is a simple console game called 'Underground.'\nIn it, players can battle enemies that become progressively stronger after each encounter.\nPlayers can also collect items and use them. The random library is used to determine whether a player encounters enemies and items.\nIt is also used to determine whether a player is able to strike enemies, block enemy attacks, or flee from combat.\nThe game ends when a player's health_stat reaches zero.")
+    print('\033[31m' + "This is a simple console game called 'Underground.'\nIn it, players can battle enemies that become progressively stronger after each encounter.\nPlayers can also collect items and use them. The random library is used to determine whether a player encounters enemies and items.\nIt is also used to determine whether a player is able to strike enemies, block enemy attacks, or flee from combat.\nThe game ends when a player's health_stat reaches zero." + '\033[0m')
     user_input = str(input("Press enter to continue. "))
     while user_input == '':
         break
@@ -79,7 +79,7 @@ def menu(user_stats, inventory, enemy_stats, items, in_combat, user_win_count):
             user_action = str(input("Choose an action: "))
         elif user_action == '3':
             print(f"Inventory: {inventory}")
-            use_item(inventory, user_stats, enemy_stats, items, in_combat)
+            use_item(inventory, user_stats, enemy_stats, items, in_combat, user_win_count)
             user_input = str(input("Press enter to continue. "))
             while user_input == '':
                 break
@@ -200,6 +200,7 @@ def use_item(inventory, user_stats, enemy_stats, items, in_combat, user_win_coun
                     break
                 clear_console()
                 in_combat = False
+                menu(user_stats, inventory, enemy_stats, items, in_combat, user_win_count)
         elif rock_hit_chance >= 0.4:
             print("You hit the enemy!")
             enemy_stats['health_stat'] -= 2
@@ -213,6 +214,7 @@ def use_item(inventory, user_stats, enemy_stats, items, in_combat, user_win_coun
                     break
                 clear_console()
                 in_combat = False
+                menu(user_stats, inventory, enemy_stats, items, in_combat, user_win_count)
         else:
             print("You missed...")
             inventory.remove('rock')
@@ -313,7 +315,7 @@ def combat(user_stats, enemy_stats, inventory, items, user_win_count):
             user_action = str(input("Choose an action: "))
         elif user_action == '3':
             print(f"Inventory: {inventory}")
-            use_item(inventory, user_stats, enemy_stats, items, in_combat)
+            use_item(inventory, user_stats, enemy_stats, items, in_combat, user_win_count)
             print(f"Your Health: {user_stats['health_stat']} | Enemy Health: {enemy_stats['health_stat']}")
             print('\033[31m' + "1. Attack\n2. Defend\n3. Use Item\n4. Check Stats\n5. Flee\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: "))
