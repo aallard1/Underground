@@ -18,10 +18,11 @@ def main():
     inventory = []
     items = ['rock', 'first aid kit']
     enemy_stats = {'attack_stat': 1, 'defence_stat': 1, 'health_stat': 5}
+    user_win_count = 0
     in_combat = False
     intro(inventory)
     get_stats(user_stats)
-    menu(user_stats, inventory, enemy_stats, items, in_combat)
+    menu(user_stats, inventory, enemy_stats, items, in_combat, user_win_count)
 
 # This function clears the console when called
 def clear_console():
@@ -29,6 +30,11 @@ def clear_console():
 
 # This function contains the Intro text and takes input from the user
 def intro(inventory):
+    print("This is a simple console game called 'Underground.'\nIn it, players can battle enemies that become progressively stronger after each encounter.\nPlayers can also collect items and use them. The random library is used to determine whether a player encounters enemies and items.\nIt is also used to determine whether a player is able to strike enemies, block enemy attacks, or flee from combat.\nThe game ends when a player's health_stat reaches zero.")
+    user_input = str(input("Press enter to continue. "))
+    while user_input == '':
+        break
+    clear_console()
     print("A hooded figure appears before you.\nAh... you look lost. Welcome to the underground.")
     user_name = str(input("What is your name? "))
     print(f"Well, {user_name} , nice to meet you!\nTake this, you'll need it. I have to go now. Good luck to you!\n...\nThe hooded figure melts away into the darkness.\nWhat's this? They dropped a lantern...")
@@ -46,7 +52,7 @@ def get_stats(user_stats):
     user_stats['defence_stat'] = random.randint(MIN_START_STAT, MAX_START_STAT)
 
 # This function contains the game menu.
-def menu(user_stats, inventory, enemy_stats, items, in_combat):
+def menu(user_stats, inventory, enemy_stats, items, in_combat, user_win_count):
     print("What should I do?")
     print('\033[31m' + "1. Move\n2. Check Stats\n3. Check Inventory\n0. Quit" + '\033[0m') # Red text
     user_action = str(input("Choose an action: "))
@@ -55,9 +61,9 @@ def menu(user_stats, inventory, enemy_stats, items, in_combat):
             print("You move forward in the darkness...")
             enemy_encounter_chance = random.random()
             item_chance = random.random()
-            enemy_encounter(user_stats, enemy_stats, enemy_encounter_chance, inventory, items)
+            enemy_encounter(user_stats, enemy_stats, enemy_encounter_chance, inventory, items, user_win_count)
             find_item(item_chance, inventory, items)
-            user_input = str(input("Press enter to continue."))
+            user_input = str(input("Press enter to continue. "))
             while user_input == '':
                 break
             clear_console()
@@ -65,7 +71,7 @@ def menu(user_stats, inventory, enemy_stats, items, in_combat):
             user_action = str(input("Choose an action: "))
         elif user_action == '2':
             check_user_stats(user_stats)
-            user_input = str(input("Press enter to continue."))
+            user_input = str(input("Press enter to continue. "))
             while user_input == '':
                 break
             clear_console()
@@ -74,7 +80,7 @@ def menu(user_stats, inventory, enemy_stats, items, in_combat):
         elif user_action == '3':
             print(f"Inventory: {inventory}")
             use_item(inventory, user_stats, enemy_stats, items, in_combat)
-            user_input = str(input("Press enter to continue."))
+            user_input = str(input("Press enter to continue. "))
             while user_input == '':
                 break
             clear_console()
@@ -85,7 +91,7 @@ def menu(user_stats, inventory, enemy_stats, items, in_combat):
             quit()
         else:
             print("I don't think I can do that...")
-            user_input = str(input("Press enter to continue."))
+            user_input = str(input("Press enter to continue. "))
             while user_input == '':
                 break
             clear_console()
@@ -101,9 +107,9 @@ def check_enemy_stats(enemy_stats):
     print(f"Enemy Stats\nAttack: {enemy_stats['attack_stat']} | Defence: {enemy_stats['defence_stat']} | Health: {enemy_stats['health_stat']}")
 
 # This function determines if the user encounters an enemy. If yes, the user enters combat.
-def enemy_encounter(user_stats, enemy_stats, enemy_encounter_chance, inventory, items):
+def enemy_encounter(user_stats, enemy_stats, enemy_encounter_chance, inventory, items, user_win_count):
     if enemy_encounter_chance >= 0.5:
-        combat(user_stats, enemy_stats, inventory, items)
+        combat(user_stats, enemy_stats, inventory, items, user_win_count)
         print("An enemy approaches you.")
     else:
         print("...")
@@ -125,7 +131,7 @@ def flee(flee_chance, user_stats, inventory, enemy_stats, items, in_combat):
     if flee_chance >= 0.5:
         print("You were able to flee combat...")
         in_combat = False
-        user_input = str(input("Press enter to continue."))
+        user_input = str(input("Press enter to continue. "))
         while user_input == '':
             break
         clear_console()
@@ -171,7 +177,7 @@ def defend(defend_chance, user_stats, enemy_stats, check_enemy_stats):
         user_stats['health_stat'] -= enemy_stats['attack_stat']
 
 # This function allow the user to use their collected items and removes them from the inventory if used.
-def use_item(inventory, user_stats, enemy_stats, items, in_combat):
+def use_item(inventory, user_stats, enemy_stats, items, in_combat, user_win_count):
     user_choice = str(input("Which item will you use? (Or, press enter to exit.) "))
     if user_choice == 'first aid kit' and ('first aid kit' in inventory):
         print("You used the first aid kit...")
@@ -188,7 +194,8 @@ def use_item(inventory, user_stats, enemy_stats, items, in_combat):
             if enemy_stats['health_stat'] <= 0:
                 print('\033[31m' + "You beat the enemy!" + '\033[0m')
                 enemy_stats['health_stat'] = 0
-                user_input = str(input("Press enter to continue."))
+                user_win_count += 1
+                user_input = str(input("Press enter to continue. "))
                 while user_input == '':
                     break
                 clear_console()
@@ -200,7 +207,8 @@ def use_item(inventory, user_stats, enemy_stats, items, in_combat):
             if enemy_stats['health_stat'] <= 0:
                 print('\033[31m' + "You beat the enemy!" + '\033[0m')
                 enemy_stats['health_stat'] = 0
-                user_input = str(input("Press enter to continue."))
+                user_win_count += 1
+                user_input = str(input("Press enter to continue. "))
                 while user_input == '':
                     break
                 clear_console()
@@ -224,8 +232,8 @@ This function allows the user to fight enemies.
 If the user wins, their stats increase and the next enemy encountered will have increased stats.
 If the user loses, the game ends.
 """
-def combat(user_stats, enemy_stats, inventory, items):
-    user_input = str(input("Press enter to continue."))
+def combat(user_stats, enemy_stats, inventory, items, user_win_count):
+    user_input = str(input("Press enter to continue. "))
     while user_input == '':
         break
     clear_console()
@@ -242,7 +250,8 @@ def combat(user_stats, enemy_stats, inventory, items):
             if enemy_stats['health_stat'] <= 0:
                 print('\033[31m' + "You beat the enemy!" + '\033[0m')
                 enemy_stats['health_stat'] = 0
-                user_input = str(input("Press enter to continue."))
+                user_win_count += 1
+                user_input = str(input("Press enter to continue. "))
                 while user_input == '':
                     break
                 clear_console()
@@ -252,15 +261,16 @@ def combat(user_stats, enemy_stats, inventory, items):
                 enemy_stats['health_stat'] += 10
                 user_stats['attack_stat'] += 1
                 user_stats['defence_stat'] += 1
-                menu(user_stats, inventory, enemy_stats, items, in_combat)
+                menu(user_stats, inventory, enemy_stats, items, in_combat, user_win_count)
             elif user_stats['health_stat'] <= 0:
                 print('\033[31m' + "You have died..." + '\033[0m')
-                user_input = str(input("Press enter to continue."))
+                print(f"You defeated {user_win_count} enemies.")
+                user_input = str(input("Press enter to continue. "))
                 while user_input == '':
                     break
                 clear_console()
                 quit()
-            user_input = str(input("Press enter to continue."))
+            user_input = str(input("Press enter to continue. "))
             while user_input == '':
                 break
             clear_console()
@@ -274,25 +284,27 @@ def combat(user_stats, enemy_stats, inventory, items):
             if enemy_stats['health_stat'] <= 0:
                 print('\033[31m' + "You beat the enemy!" + '\033[0m')
                 enemy_stats['health_stat'] = 0
+                user_win_count += 1
                 in_combat = False
                 enemy_stats['attack_stat'] += 1
                 enemy_stats['defence_stat'] += 1
                 enemy_stats['health_stat'] += 10
                 user_stats['attack_stat'] += 1
                 user_stats['defence_stat'] += 1
-                user_input = str(input("Press enter to continue."))
+                user_input = str(input("Press enter to continue. "))
                 while user_input == '':
                     break
                 clear_console()
                 menu(user_stats, inventory, enemy_stats, items, in_combat)
             elif user_stats['health_stat'] <= 0:
                 print('\033[31m' + "You have died..." + '\033[0m')
-                user_input = str(input("Press enter to continue."))
+                print(f"You defeated {user_win_count} enemies.")
+                user_input = str(input("Press enter to continue. "))
                 while user_input == '':
                     break
                 clear_console()
                 quit()
-            user_input = str(input("Press enter to continue."))
+            user_input = str(input("Press enter to continue. "))
             while user_input == '':
                 break
             clear_console()
@@ -308,7 +320,7 @@ def combat(user_stats, enemy_stats, inventory, items):
         elif user_action == '4':
             check_user_stats(user_stats)
             check_enemy_stats(enemy_stats)
-            user_input = str(input("Press enter to continue."))
+            user_input = str(input("Press enter to continue. "))
             while user_input == '':
                 break
             clear_console()
@@ -326,7 +338,7 @@ def combat(user_stats, enemy_stats, inventory, items):
             quit()
         else:
             print("I don't think I can do that...")
-            user_input = str(input("Press enter to continue."))
+            user_input = str(input("Press enter to continue. "))
             while user_input == '':
                 break
             clear_console()
