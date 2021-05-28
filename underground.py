@@ -243,10 +243,6 @@ def use_item(inventory, user_stats, enemy_stats, items, in_combat, user_win_coun
     elif user_choice == 'lantern':
         print("You hold up the lantern and examine your surroundings...")
         print("What is this place?")
-        user_input = str(input("Press enter to continue. "))
-        while user_input == '':
-            break
-        clear_console()
     elif user_choice == '':
         return
     else: 
@@ -350,6 +346,7 @@ def combat(user_stats, enemy_stats, inventory, items, user_win_count):
             while user_input == '':
                 break
             clear_console()
+            print(f"Your Health: {user_stats['health_stat']} | Enemy Health: {enemy_stats['health_stat']}")
             print('\033[31m' + "1. Attack\n2. Defend\n3. Use Item\n4. Check Stats\n5. Flee\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: ")) 
         elif user_action == '5':
