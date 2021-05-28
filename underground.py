@@ -87,6 +87,10 @@ def menu(user_stats, inventory, enemy_stats, items, in_combat, user_win_count):
             print('\033[31m' + "1. Move\n2. Check Stats\n3. Check Inventory\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: "))
         elif user_action == '0':
+            print(f"You defeated {user_win_count} enemies.")
+            user_input = str(input("Press enter to continue. "))
+            while user_input == '':
+                break
             clear_console()
             quit()
         else:
@@ -336,6 +340,10 @@ def combat(user_stats, enemy_stats, inventory, items, user_win_count):
             print('\033[31m' + "1. Attack\n2. Defend\n3. Use Item\n4. Check Stats\n5. Flee\n0. Quit" + '\033[0m')
             user_action = str(input("Choose an action: "))
         elif user_action == '0':
+            print(f"You defeated {user_win_count} enemies.")
+            user_input = str(input("Press enter to continue. "))
+            while user_input == '':
+                break
             clear_console()
             quit()
         else:
