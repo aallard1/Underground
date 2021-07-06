@@ -1,6 +1,6 @@
 """
 This is a simple console game called 'Underground.' 
-In it, players can battle enemies that become progressively stronger after each encounter.
+In it, players can battle enemies that become progressively stronger.
 Players can also collect items and use them. The random library is used to determine whether a player encounters enemies and items. 
 It is also used to determine whether a player is able to strike enemies, block enemy attacks, or flee from combat.
 The game ends when a player's health_stat reaches zero.
@@ -14,13 +14,18 @@ MAX_START_STAT = 10
 MIN_START_STAT = 2
 
 def main():
+    ### TODO 
+    # Implement classes for user -> enemy:user
+    # 
+    ###
     user_stats = {'attack_stat': 0, 'defence_stat': 0, 'health_stat': 20}
     inventory = []
     items = ['rock', 'first aid kit']
     enemy_stats = {'attack_stat': 1, 'defence_stat': 1, 'health_stat': 5}
     user_win_count = 0
     in_combat = False
-    intro(inventory)
+    intro(inventory) # Sends you into the game + gives you inventory
+    # Gamelogic: Begin game # Game gives you an inventory
     get_stats(user_stats)
     menu(user_stats, inventory, enemy_stats, items, in_combat, user_win_count)
 
